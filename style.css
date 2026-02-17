@@ -259,40 +259,78 @@ body{
   padding-bottom: var(--footer-h, 44px) !important;
 }
 
-/* تحسينات للهواتف والشاشات الصغيرة */
+/* --- إصلاح شامل لجميع الشاشات والهواتف --- */
 @media (max-width: 768px) {
     body {
-        flex-direction: column; /* جعل السايدبار والمحتوى فوق بعض بدل بجانب بعض */
-        padding-top: 100px; /* تقليل مساحة البانر العلوي قليلاً */
+        flex-direction: column; /* ترتيب العناصر عمودياً */
+        padding-top: 90px;      /* تقليل المساحة العلوية لتناسب الموبايل */
+        display: block;         /* إلغاء الـ flex الأساسي لتسهيل الترتيب */
     }
 
+    /* تعديل البانر العلوي ليصبح أصغر في الموبايل */
+    body::before {
+        height: 90px;
+        background-size: cover;
+    }
+
+    /* تحويل السايدبار إلى قسم علوي بسيط */
     .sidebar {
-        width: 100%; /* السايدبار يأخذ كامل العرض */
+        width: 100%;
         height: auto;
         position: relative;
         top: 0;
-        padding: 15px;
-    }
-
-    .main {
         padding: 10px;
+        box-sizing: border-box;
+        border-bottom: 2px solid #5cb8c5;
     }
 
+    .sidebar h2 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+
+    /* إخفاء بعض العناصر غير الضرورية في السايدبار لتوفير مساحة */
+    .sidebar .stats, .sidebar .user-box {
+        background: rgba(255,255,255,0.3);
+        margin: 5px 0;
+        border-radius: 8px;
+        padding: 5px;
+    }
+
+    .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .nav button {
+        flex: 1;
+        min-width: 120px;
+        margin: 2px 0;
+    }
+
+    /* تعديل المحتوى الرئيسي */
+    .main {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    /* جعل شبكة الكتب مرنة (كتاب واحد أو اثنين في السطر) */
+    .books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+    }
+
+    /* تصغير الفلاتر لتناسب العرض */
     .filters {
-        flex-direction: column; /* ترتيب الفلاتر عمودياً ليسهل الضغط عليها */
-        align-items: stretch;
+        flex-direction: column;
     }
-
-    .input, .filters button {
-        width: 100%; /* جعل الحقول تأخذ كامل العرض */
-    }
-
+    
+    /* إصلاح عرض إطار الـ PDF */
     .pdf-frame {
-        height: 60vh; /* تقليل ارتفاع قارئ الكتب ليناسب الشاشة الطولية */
-    }
-
-    /* تصغير حجم البانر العلوي في الموبايل */
-    body::before {
-        height: 100px;
+        height: 50vh; 
+        min-height: 400px;
     }
 }
