@@ -253,28 +253,34 @@ function openBook(grade, title) {
   const book = booksData[grade][title];
   let url = book.url;
 
-  // 1. إذا كان الرابط يؤدي لصفحة التفاصيل، نحوله لصفحة العرض (القارئ)
+  // إصلاح الرابط برمجياً ليعمل كقارئ وليس كصفحة تحميل
+  let embedUrl = url;
   if (url.includes("archive.org/details/")) {
-      url = url.replace("archive.org/details/", "archive.org/embed/");
-  } 
-  // 2. إذا كان الرابط تحميل مباشر (PDF)، نحوله لرابط عرض ليفتحه المتصفح
-  else if (url.includes("archive.org/download/")) {
-      const id = url.split('/')[4]; 
-      url = `https://archive.org/embed/${id}`;
+      embedUrl = url.replace("archive.org/details/", "archive.org/embed/");
+  } else if (url.includes("archive.org/download/")) {
+      const parts = url.split('/');
+      const id = parts[4]; 
+      embedUrl = `https://archive.org/embed/${id}`;
   }
 
   const content = document.getElementById('content');
   content.innerHTML = `
-    <div class="reader-container">
-      <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-        <button class="primary" onclick="loadLibrary()">◀ العودة للمكتبة</button>
-        <a href="${book.url}" target="_blank" class="secondary" style="text-decoration:none; background:#28a745; color:white; padding:8px 15px; border-radius:8px; font-size:14px;">
-           📂 فتح في نافذة خارجية
+    <div class="reader-container" style="text-align: center;">
+      <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap;">
+        <button class="primary" onclick="loadLibrary()" style="background: #555;">◀ العودة للمكتبة</button>
+        <a href="${url}" target="_blank" class="primary" style="background: #28a745; text-decoration: none; display: inline-block; padding: 10px 20px; color: white; border-radius: 8px; font-weight: bold;">
+           📖 ابدأ القراءة الآن (شاشة كاملة)
         </a>
       </div>
 
-      <div class="iframe-wrapper" style="position: relative; width: 100%; height: 80vh; background: #eee; border-radius: 12px; overflow: hidden;">
-        <iframe src="${url}" width="100%" height="100%" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+      <div class="info-box" style="background: #eef9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-right: 5px solid #00b3cc;">
+        <strong>ملاحظة للمطالعين:</strong> إذا كنت تستخدم الهاتف، نوصي بالضغط على الزر الأخضر أعلاه للحصول على أفضل تجربة قراءة.
+      </div>
+
+      <div class="iframe-wrapper" style="border: 2px solid #ddd; border-radius: 12px; overflow: hidden; background: #f9f9f9; height: 70vh;">
+        <iframe src="${embedUrl}" width="100%" height="100%" frameborder="0" allowfullscreen>
+            <p>متصفحك لا يدعم عرض الإطارات، يرجى الضغط على زر القراءة أعلاه.</p>
+        </iframe>
       </div>
     </div>
   `;
