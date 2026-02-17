@@ -252,8 +252,49 @@ function loadLibrary() { renderLibrary(); }
 function openBook(grade, title) {
   currentGrade = grade;
   currentBook = title;
-  currentPage = 0;
-  showBook();
+  const book = booksData[grade][title];
+  const progress = getProgressOrNull(grade, title);
+  currentPage = (progress !== null) ? progress : 0;
+
+  // --- معالجة الرابط ليعمل على الموبايل والكمبيوتر ---
+  let displayUrl = book.url;
+  
+  // إذا كان الرابط من أرشيف، نحوله لصيغة الـ Embed لضمان الفتح
+  if (displayUrl.includes("archive.org/details/")) {
+      displayUrl = displayUrl.replace("archive.org/details/", "archive.org/embed/");
+  } else if (displayUrl.includes("archive.org/download/")) {
+      // إذا كان رابط تحميل مباشر، نرجعه لصيغة العرض ليعمل داخل الإطار
+      let parts = displayUrl.split('/');
+      let id = parts[4]; 
+      displayUrl = `https://archive.org/embed/${id}`;
+  }
+
+  const content = $("content");
+  content.innerHTML = `
+    <div class="reader-container">
+      <div class="reader-controls" style="margin-bottom:15px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="primary" onclick="loadLibrary()">◀ العودة للمكتبة</button>
+        <a href="${book.url}" target="_blank" class="secondary" style="text-decoration:none; background:#28a745; color:white; padding:8px 15px; border-radius:8px;">
+           📖 فتح الكتاب بحجم كامل (للموبايل)
+        </a>
+      </div>
+      
+      <div class="mobile-warning" style="display:none; background:#fff3cd; padding:10px; border-radius:8px; margin-bottom:10px; font-size:14px;">
+        ⚠️ إذا لم يظهر الكتاب أدناه، يرجى الضغط على زر "فتح الكتاب بحجم كامل".
+      </div>
+
+      <h2 style="margin-top:0;">${title}</h2>
+      
+      <iframe src="${displayUrl}" class="pdf-frame" allowfullscreen frameborder="0"></iframe>
+    </div>
+  `;
+  
+  // إظهار تنبيه بسيط لمستخدمي الموبايل
+  if(window.innerWidth < 768) {
+      document.querySelector('.mobile-warning').style.display = 'block';
+  }
+
+  window.scrollTo(0, 0);
 }
 
 function showBook() {
