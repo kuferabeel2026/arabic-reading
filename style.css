@@ -8,7 +8,6 @@ body {
     padding-top: 130px;
 
     /* اترك مساحة للفوتر الثابت أسفل الصفحة */
-    padding-bottom: 60px;
 
     display: flex;
     background: #f4f6f9;
@@ -246,8 +245,15 @@ footer,
   left: 0;
   right: 0;
   bottom: 0;
-  height: var(--footer-h, 44px);
-  line-height: var(--footer-h, 44px);
+  height: auto;
+  line-height: normal;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
   background: #00b3cc;
   color: #fff;
   text-align: center;
@@ -255,9 +261,11 @@ footer,
 }
 
 /* حتى لا يغطي الفوتر آخر جزء من المحتوى */
+/* حتى لا يغطي الفوتر آخر جزء من المحتوى */
 body{
-  padding-bottom: var(--footer-h, 44px) !important;
+  padding-bottom: 110px !important;
 }
+
 
 /* --- إصلاح شامل لجميع الشاشات والهواتف --- */
 @media (max-width: 768px) {
@@ -268,10 +276,14 @@ body{
     }
 
     /* تعديل البانر العلوي ليصبح أصغر في الموبايل */
-    body::before {
-        height: 90px;
-        background-size: cover;
-    }
+body::before {
+    height: 90px;
+    background-size: contain;        /* يمنع قص الشعار */
+    background-position: right center; /* ركّز على يمين الصورة حيث الشعار */
+    background-repeat: no-repeat;
+    background-color: #00b3cc;       /* لون خلفية إذا ظهرت فراغات */
+}
+
 
     /* تحويل السايدبار إلى قسم علوي بسيط */
     .sidebar {
@@ -333,4 +345,38 @@ body{
         height: 50vh; 
         min-height: 400px;
     }
+}
+@media (max-width: 768px){
+  .iframe-wrapper,
+  .pdf-frame{
+    display:none !important;
+  }
+}
+/* إصلاح قصّ العنوان على الهاتف */
+.header, header, .top-bar {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header h1, header h1, .top-bar h1,
+.header .title, header .title, .top-bar .title {
+  max-width: 100%;
+  white-space: normal;       /* يسمح بالتفاف النص */
+  overflow-wrap: anywhere;   /* يمنع القص */
+  text-align: center;
+  line-height: 1.2;
+  padding: 10px 12px;
+  box-sizing: border-box;
+}
+
+/* موبايل: صغّر الخط تلقائيًا */
+@media (max-width: 768px) {
+  .header h1, header h1, .top-bar h1,
+  .header .title, header .title, .top-bar .title {
+    font-size: 22px;   /* غيّرها حسب ما تريد */
+  }
+}
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
 }
