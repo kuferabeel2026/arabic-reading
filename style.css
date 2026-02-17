@@ -277,7 +277,7 @@ body{
 
     /* تعديل البانر العلوي ليصبح أصغر في الموبايل */
 body::before {
-    height: 90px;
+    height: 150px;
     background-size: contain;        /* يمنع قص الشعار */
     background-position: right center; /* ركّز على يمين الصورة حيث الشعار */
     background-repeat: no-repeat;

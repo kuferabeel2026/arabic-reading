@@ -556,6 +556,13 @@ window.prevPage = prevPage;
 // -------------------- Load books --------------------
 async function loadBooks() {
   try {
+    // منع كاش عدّاد الزوار (Hits badge)
+const img = document.getElementById("visitorCounter");
+if (img) {
+  const base = img.getAttribute("src").split("&cb=")[0];
+  img.src = `${base}&cb=${Date.now()}`;
+}
+
     const res = await fetch(`books.json?v=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
