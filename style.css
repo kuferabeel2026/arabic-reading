@@ -1,0 +1,260 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    direction: rtl;
+    margin: 0;
+    font-size: large;
+
+    /* احجز مساحة للبانر الثابت حتى لا يختفي شريط الفلاتر تحته */
+    padding-top: 130px;
+
+    /* اترك مساحة للفوتر الثابت أسفل الصفحة */
+    padding-bottom: 60px;
+
+    display: flex;
+    background: #f4f6f9;
+    position: relative;
+}
+
+/* متغيرات لتسهيل تعديل الارتفاعات لاحقًا */
+:root{
+    --banner-h: 135px;
+    --footer-h: 40px;
+    --sidebar-w: 250px;
+}
+
+.sidebar {
+    flex-shrink: 0;
+
+    width: var(--sidebar-w);
+    background: #78dae7;
+    color: rgb(15, 14, 14);
+    padding: 1.5%;
+
+    /* سايدبار بطول الصفحة (ويبقى ظاهر أثناء التمرير) */
+    position: sticky;
+    top: var(--banner-h);
+    height: calc(100vh - var(--banner-h) - var(--footer-h));
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    text-align: center;
+}
+
+.sidebar button {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    border: none;
+    background: #1f4068;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.sidebar button:hover {
+    background: #27496d;
+}
+
+.main {
+    flex: 1;
+    padding: 1.5%;
+}
+
+/* اجعل الكروت تمتد بعرض المساحة المتاحة (حتى آخر اليسار داخل الـ main) */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: none;
+}
+
+/* الكتب */
+.book {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.book:hover {
+    background: #eef1f5;
+}
+
+.book.not-ready{
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.progress-bar {
+    width: 100%;
+    background: #ddd;
+    height: 10px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.progress {
+    height: 10px;
+    background: green;
+    border-radius: 10px;
+}
+
+button.primary {
+    padding: 8px 12px;
+    background: #142850;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.dark-mode {
+    background: #1e1e1e;
+    color: white;
+}
+
+.dark-mode .card {
+    background: #2c2c2c;
+}
+
+.dark-mode .sidebar {
+    background: #000;
+}
+
+.dark-mode .book:hover{
+    background: #3a3a3a;
+}
+
+.dark-mode .progress-bar{ background: rgba(255,255,255,0.15); }
+.dark-mode .progress{ background: #2ecc71; }
+
+/* make <a> look like button */
+a.link-btn{ text-decoration: none; display: inline-block; }
+
+
+
+/* Inputs & filters */
+.input{
+  padding: 8px 10px;
+  border: 1px solid #d7dbe3;
+  border-radius: 8px;
+  background: #fff;
+  min-width: 140px;
+}
+.filters{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  width: 100%;
+}
+.user-box{ margin-top: 10px; }
+.user-row{ display:flex; justify-content: space-between; align-items: center; gap: 10px; }
+.user-actions{ display:flex; gap: 10px; margin-top: 10px; }
+.user-actions button{ width: 100%; margin: 0; } /* override sidebar button margin */
+
+/* Modal */
+.modal{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+.modal.open{ display:flex; }
+.modal-content{
+  width: min(420px, 96vw);
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.modal-actions{
+  display:flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+button.secondary{
+  padding: 8px 12px;
+  background: #e9eef6;
+  color: #142850;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+button.secondary:hover{ background:#dde6f3; }
+
+.reader-text{ line-height: 1.9; font-size: 16px; white-space: pre-wrap; }
+.muted{ color:#0f1010; }
+.badges{ margin-top: 8px; }
+.badge-emoji{ font-size: 22px; margin: 0 4px; }
+
+
+
+/* --- Reader size fixes --- */
+.pdf-frame{
+  width: 100%;
+  height: 78vh;
+  min-height: 600px;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 12px;
+  background: #111;
+}
+
+/* Improve reader layout in dark mode */
+.dark-mode .card{
+  background: #2f2f2f;
+  color: #fff;
+}
+.dark-mode .pdf-frame{
+  border-color: rgba(255,255,255,0.18);
+}
+
+
+/* --- Top banner (fixed overlay) --- */
+body::before{
+  content: "";
+  position: fixed;            /* ثابت */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--banner-h);
+  background: url("assets/banner.png") center / cover no-repeat;
+
+  z-index: 1100;              /* فوق كل شيء */
+  pointer-events: none;       /* لا يمنع الضغط على العناصر تحت */
+}
+
+/* === Force footer to bottom === */
+footer,
+.footer,
+#footer,
+#copyright,
+.copyright,
+#copyrightBar{
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--footer-h, 44px);
+  line-height: var(--footer-h, 44px);
+  background: #00b3cc;
+  color: #fff;
+  text-align: center;
+  z-index: 1200;
+}
+
+/* حتى لا يغطي الفوتر آخر جزء من المحتوى */
+body{
+  padding-bottom: var(--footer-h, 44px) !important;
+}
