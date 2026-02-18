@@ -552,6 +552,7 @@ window.startQuiz = startQuiz;
 window.checkAnswer = checkAnswer;
 window.nextPage = nextPage;
 window.prevPage = prevPage;
+window.sendEmailToSchool = sendEmailToSchool;
 
 // -------------------- Load books --------------------
 async function loadBooks() {
@@ -580,3 +581,25 @@ if (img) {
 }
 
 document.addEventListener("DOMContentLoaded", loadBooks);
+
+function sendEmailToSchool(){
+  const email = "school@example.com"; // عدّل البريد هنا
+
+  const name = (document.getElementById("cName")?.value || "").trim();
+  const phone = (document.getElementById("cPhone")?.value || "").trim();
+  const subject = (document.getElementById("cSubject")?.value || "التواصل مع المدرسة").trim();
+  const msg = (document.getElementById("cMsg")?.value || "").trim();
+
+  const body =
+`الاسم: ${name || "-"}
+رقم الهاتف: ${phone || "-"}
+----------------
+الرسالة:
+${msg || "-"}`;
+
+  window.location.href =
+    `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+
+

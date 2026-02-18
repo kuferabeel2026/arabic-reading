@@ -35,6 +35,32 @@
       <button onclick="showAchievements()">🏅 إنجازاتي</button>
       <button onclick="toggleDarkMode()">🌙 الوضع الليلي</button>
     </div>
+    <!-- قسم التواصل -->
+<div class="contact-box">
+  <h3>📩 التواصل مع أولياء الأمور والمجتمع</h3>
+
+  <!-- عدّل البريد هنا -->
+  <a class="contact-email" href="mailto:school@example.com?subject=التواصل%20مع%20مدرسة%20كفرأبيل&body=الاسم:%20%0Aرقم%20الهاتف:%20%0Aالرسالة:%20">
+    ✉️ kuferabeelschool@gmail.com
+  </a>
+
+  <div class="contact-form">
+    <input id="cName" class="input" type="text" placeholder="الاسم (اختياري)">
+    <input id="cPhone" class="input" type="text" placeholder="رقم الهاتف (اختياري)">
+    <input id="cSubject" class="input" type="text" placeholder="الموضوع">
+    <textarea id="cMsg" class="input" rows="4" placeholder="اكتب رسالتك هنا..."></textarea>
+
+    <button class="primary" onclick="sendEmailToSchool()">
+      إرسال عبر البريد
+    </button>
+
+    <p class="muted" style="margin:8px 0 0;">
+      سيتم فتح تطبيق البريد على جهازك لإرسال الرسالة.
+    </p>
+  </div>
+</div>
+
+
 
 
   </aside>
