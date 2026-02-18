@@ -583,8 +583,7 @@ if (img) {
 document.addEventListener("DOMContentLoaded", loadBooks);
 
 function sendEmailToSchool(){
-  const email = "school@example.com"; // عدّل البريد هنا
-
+  const email = "kuferabeelschool@gmail.com"; 
   const name = (document.getElementById("cName")?.value || "").trim();
   const phone = (document.getElementById("cPhone")?.value || "").trim();
   const subject = (document.getElementById("cSubject")?.value || "التواصل مع المدرسة").trim();
