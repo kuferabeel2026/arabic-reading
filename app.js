@@ -275,7 +275,7 @@ function openBook(grade, title) {
   // تحويل archive details -> embed
   if (url.includes("archive.org/details/")) {
     embedUrl = url.replace("archive.org/details/", "archive.org/embed/");
-  }
+  } 
   // تحويل archive download -> embed (حسب الـ id)
   else if (url.includes("archive.org/download/")) {
     const parts = url.split("/");
@@ -553,36 +553,16 @@ window.checkAnswer = checkAnswer;
 window.nextPage = nextPage;
 window.prevPage = prevPage;
 
-async function updateVisitorCounter() {
-  const el = document.getElementById("visitorCounterText");
-  if (!el) return;
-
-  try {
-    // ns: يفضّل يكون دومين موقعك لتفادي التعارض
-    const ns = "kuferabeel2026.github.io";
-    // action: اسم نوع الحدث (مثلاً view)
-    const action = "view";
-    // key: اسم ثابت لعداد واحد للموقع كله (مثلاً homepage)
-    const key = "arabic-reading";
-
-    const url = `https://counterapi.com/api/${encodeURIComponent(ns)}/${encodeURIComponent(action)}/${encodeURIComponent(key)}`;
-
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-
-    const data = await res.json();
-    el.textContent = data.value;
-  } catch (e) {
-    el.textContent = "غير متاح";
-    console.error(e);
-  }
-}
-
-
 // -------------------- Load books --------------------
 async function loadBooks() {
   try {
-   
+    // منع كاش عدّاد الزوار (Hits badge)
+const img = document.getElementById("visitorCounter");
+if (img) {
+  const base = img.getAttribute("src").split("&cb=")[0];
+  img.src = `${base}&cb=${Date.now()}`;
+}
+
     const res = await fetch(`books.json?v=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
@@ -599,9 +579,4 @@ async function loadBooks() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  updateVisitorCounter();
-  loadBooks();
-});
-
-
+document.addEventListener("DOMContentLoaded", loadBooks);
