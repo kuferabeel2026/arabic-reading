@@ -275,7 +275,7 @@ function openBook(grade, title) {
   // تحويل archive details -> embed
   if (url.includes("archive.org/details/")) {
     embedUrl = url.replace("archive.org/details/", "archive.org/embed/");
-  } 
+  }
   // تحويل archive download -> embed (حسب الـ id)
   else if (url.includes("archive.org/download/")) {
     const parts = url.split("/");
@@ -553,16 +553,29 @@ window.checkAnswer = checkAnswer;
 window.nextPage = nextPage;
 window.prevPage = prevPage;
 
+async function updateVisitorCounter() {
+  const el = document.getElementById("visitorCounterText");
+  if (!el) return;
+
+  try {
+    const namespace = "kuferabeel2026-github";
+    const key = "arabic-reading";
+
+    const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`, { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+
+    const data = await res.json();
+    el.textContent = data.value;
+  } catch (e) {
+    el.textContent = "غير متاح";
+    console.error(e);
+  }
+}
+
 // -------------------- Load books --------------------
 async function loadBooks() {
   try {
-    // منع كاش عدّاد الزوار (Hits badge)
-const img = document.getElementById("visitorCounter");
-if (img) {
-  const base = img.getAttribute("src").split("&cb=")[0];
-  img.src = `${base}&cb=${Date.now()}`;
-}
-
+   
     const res = await fetch(`books.json?v=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
@@ -579,4 +592,9 @@ if (img) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", loadBooks);
+document.addEventListener("DOMContentLoaded", () => {
+  updateVisitorCounter();
+  loadBooks();
+});
+
+
