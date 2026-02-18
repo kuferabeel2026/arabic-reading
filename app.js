@@ -563,7 +563,7 @@ if (img) {
   img.src = `${base}&cb=${Date.now()}`;
 }
 
-    const res = await fetch(`books.json?v=${Date.now()}`, { cache: "no-store" });
+    const res = await fetch(`${BOOKS_API_URL}?v=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     booksData = normalizeBooksData(data);
