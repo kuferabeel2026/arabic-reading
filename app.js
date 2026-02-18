@@ -558,10 +558,16 @@ async function updateVisitorCounter() {
   if (!el) return;
 
   try {
-    const namespace = "kuferabeel2026-github";
+    // ns: يفضّل يكون دومين موقعك لتفادي التعارض
+    const ns = "kuferabeel2026.github.io";
+    // action: اسم نوع الحدث (مثلاً view)
+    const action = "view";
+    // key: اسم ثابت لعداد واحد للموقع كله (مثلاً homepage)
     const key = "arabic-reading";
 
-    const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`, { cache: "no-store" });
+    const url = `https://counterapi.com/api/${encodeURIComponent(ns)}/${encodeURIComponent(action)}/${encodeURIComponent(key)}`;
+
+    const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("HTTP " + res.status);
 
     const data = await res.json();
@@ -571,6 +577,7 @@ async function updateVisitorCounter() {
     console.error(e);
   }
 }
+
 
 // -------------------- Load books --------------------
 async function loadBooks() {
