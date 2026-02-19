@@ -280,12 +280,11 @@ if (isMobile()) {
   const content = document.getElementById("content");
   content.innerHTML = `
     <div style="text-align:center; padding:20px;">
-      <button class="primary" onclick="loadLibrary()" style="background:#555;">◀ العودة للمكتبة</button>
+      <button class="primary btn-gray" onclick="loadLibrary()">◀ العودة للمكتبة</button>
 
       <a href="${url}" target="_blank" rel="noopener noreferrer"
-         class="primary"
-         style="background:#28a745; text-decoration:none; display:inline-block; margin:12px 0; padding:10px 20px; color:white; border-radius:8px; font-weight:bold;">
-        📖 ابدأ القراءة الآن
+            class="primary link-btn btn-green">
+            📖 ابدأ القراءة الآن (شاشة كاملة)
       </a>
 
       ${done
