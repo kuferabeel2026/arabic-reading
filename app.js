@@ -279,7 +279,7 @@ if (isMobile()) {
 
   const content = document.getElementById("content");
   content.innerHTML = `
-    <div class="btn-row" style="margin-bottom:20px;">
+    <div class="btn-row">
       <button class="primary btn-gray" onclick="loadLibrary()">◀ العودة للمكتبة</button>
 
       <a href="${url}" target="_blank" rel="noopener noreferrer"
@@ -289,7 +289,7 @@ if (isMobile()) {
 
       ${done
         ? `<div style="margin-top:10px; font-weight:bold;">✅ هذا الكتاب مكتمل</div>`
-        : `<button class="primary" onclick="markCompleted()" style="margin-top:10px;">✅ اعتماد كمكتمل</button>`
+        : `<button class="primary" onclick="markCompleted()">✅ اعتماد كمكتمل</button>`
       }
     </div>
   `;
