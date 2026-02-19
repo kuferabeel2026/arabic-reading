@@ -269,12 +269,34 @@ function openBook(grade, title) {
   const done = isCompleted(grade, title);
 
   // على الهاتف: افتح الكتاب مباشرة + اعرض زر المكتمل هنا (لأنه ما في واجهة قارئ)
-  if (isMobile()) {
-    const ok = confirm(done ? "هذا الكتاب مكتمل بالفعل." : "هل تريد اعتماد هذا الكتاب كمكتمل؟");
-    if (ok && !done) markCompleted();
-    window.open(url, "_blank", "noopener,noreferrer");
-    return;
-  }
+if (isMobile()) {
+  currentGrade = grade;
+  currentBook = title;
+
+  const book = booksData[grade][title];
+  const url = book.url || "";
+  const done = isCompleted(grade, title);
+
+  const content = document.getElementById("content");
+  content.innerHTML = `
+    <div style="text-align:center; padding:20px;">
+      <button class="primary" onclick="loadLibrary()" style="background:#555;">◀ العودة للمكتبة</button>
+
+      <a href="${url}" target="_blank" rel="noopener noreferrer"
+         class="primary"
+         style="background:#28a745; text-decoration:none; display:inline-block; margin:12px 0; padding:10px 20px; color:white; border-radius:8px; font-weight:bold;">
+        📖 ابدأ القراءة الآن
+      </a>
+
+      ${done
+        ? `<div style="margin-top:10px; font-weight:bold;">✅ هذا الكتاب مكتمل</div>`
+        : `<button class="primary" onclick="markCompleted()" style="margin-top:10px;">✅ اعتماد كمكتمل</button>`
+      }
+    </div>
+  `;
+  return;
+}
+
 
   // كمبيوتر: حاول embed
   let embedUrl = url;
