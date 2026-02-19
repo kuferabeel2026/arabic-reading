@@ -254,17 +254,24 @@ function isMobile() {
 }
 
 function openBook(grade, title) {
+  // لازم لضمان عمل markCompleted()
+  currentGrade = grade;
+  currentBook = title;
+
   const book = booksData[grade][title];
   const url = book.url || "";
 
-  // إذا ما في رابط أصلاً
   if (!url) {
     alert("لا يوجد رابط لهذا الكتاب في books.json");
     return;
   }
 
-  // على الهاتف: افتح الكتاب مباشرة (أفضل حل لتوافق PDF)
+  const done = isCompleted(grade, title);
+
+  // على الهاتف: افتح الكتاب مباشرة + اعرض زر المكتمل هنا (لأنه ما في واجهة قارئ)
   if (isMobile()) {
+    const ok = confirm(done ? "هذا الكتاب مكتمل بالفعل." : "هل تريد اعتماد هذا الكتاب كمكتمل؟");
+    if (ok && !done) markCompleted();
     window.open(url, "_blank", "noopener,noreferrer");
     return;
   }
@@ -272,12 +279,9 @@ function openBook(grade, title) {
   // كمبيوتر: حاول embed
   let embedUrl = url;
 
-  // تحويل archive details -> embed
   if (url.includes("archive.org/details/")) {
     embedUrl = url.replace("archive.org/details/", "archive.org/embed/");
-  } 
-  // تحويل archive download -> embed (حسب الـ id)
-  else if (url.includes("archive.org/download/")) {
+  } else if (url.includes("archive.org/download/")) {
     const parts = url.split("/");
     const id = parts[4];
     if (id) embedUrl = `https://archive.org/embed/${id}`;
@@ -288,10 +292,13 @@ function openBook(grade, title) {
     <div class="reader-container" style="text-align:center;">
       <div style="display:flex; gap:10px; margin-bottom:20px; justify-content:center; flex-wrap:wrap;">
         <button class="primary" onclick="loadLibrary()" style="background:#555;">◀ العودة للمكتبة</button>
+
         <a href="${url}" target="_blank" rel="noopener noreferrer"
            class="primary" style="background:#28a745; text-decoration:none; display:inline-block; padding:10px 20px; color:white; border-radius:8px; font-weight:bold;">
           📖 ابدأ القراءة الآن (شاشة كاملة)
         </a>
+
+        ${done ? "" : `<button class="primary" onclick="markCompleted()">✅ اعتماد كمكتمل</button>`}
       </div>
 
       <div class="iframe-wrapper" style="border:2px solid #ddd; border-radius:12px; overflow:hidden; background:#f9f9f9; height:70vh;">
@@ -304,6 +311,7 @@ function openBook(grade, title) {
 
   window.scrollTo(0, 0);
 }
+
 
 
 function showBook() {
