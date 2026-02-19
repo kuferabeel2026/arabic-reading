@@ -418,3 +418,38 @@ html, body {
   min-height: 90px;
 }
 
+/* خلي الرابط (a) اللي عليه primary يظهر كزر وليس كرابط أزرق */
+a.primary.link-btn{
+  color: #fff !important;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  font-weight: 700;
+  border-radius: 10px;
+  min-height: 44px;
+  padding: 12px 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* نفس تنسيق زر primary لو كان في كودك موجود، هذا فقط للتأكيد */
+button.primary{
+  min-height: 44px;
+  padding: 12px 16px;
+  border-radius: 10px;
+}
+
+/* ألوان جاهزة */
+.btn-green{ background:#28a745 !important; }
+.btn-gray{ background:#555 !important; }
+
+/* صف الأزرار (للكمبيوتر والتابلت) */
+.reader-container .btn-row{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+}

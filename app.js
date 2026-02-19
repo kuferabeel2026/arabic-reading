@@ -279,12 +279,12 @@ if (isMobile()) {
 
   const content = document.getElementById("content");
   content.innerHTML = `
-    <div style="text-align:center; padding:20px;">
+    <div class="btn-row" style="margin-bottom:20px;">
       <button class="primary btn-gray" onclick="loadLibrary()">◀ العودة للمكتبة</button>
 
       <a href="${url}" target="_blank" rel="noopener noreferrer"
-            class="primary link-btn btn-green">
-            📖 ابدأ القراءة الآن (شاشة كاملة)
+         class="primary link-btn btn-green">
+         📖 ابدأ القراءة الآن (شاشة كاملة)
       </a>
 
       ${done
