@@ -6,7 +6,6 @@ body {
     display: flex;
     flex-wrap: wrap; /* يسمح للبانر بأخذ سطر كامل والمحتوى تحته */
     background: #f4f6f9;
-    padding-top: 0 !important; /* إلغاء الـ 130px القديمة */
 }
 
 /* متغيرات لتسهيل تعديل الارتفاعات لاحقًا */
@@ -579,24 +578,32 @@ a.primary.link-btn{
     box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
+/* تنسيق البانر المطور ليناسب الهاتف والكمبيوتر */
 .main-banner-container {
-    width: 100%;       /* ملء العرض بالكامل */
-    background: #00b3cc; /* لون احتياطي متناسق مع صورتك */
+    width: 100%;
+    background: #00b3cc; /* لون الخلفية الزرقاء في صورتك */
     line-height: 0;
-    margin-bottom: 20px;
+    margin: 0;
+    padding: 0;
 }
 
 .full-width-banner {
-    width: 100%;       /* تمدد الصورة لعرض الشاشة */
-    height: auto;      /* الحفاظ على التناسب */
-    max-height: 350px; /* يمكنك التحكم في الطول من هنا */
-    object-fit: cover; /* لضمان عدم تشوه الشعار */
+    width: 100%;
+    height: auto;
+    /* object-fit: contain يضمن ظهور كامل محتوى الصورة (النص والشعار) دون قص */
+    object-fit: contain; 
     display: block;
+    max-height: 300px; /* طول مناسب للكمبيوتر */
 }
 
-/* تعديل للموبايل */
+/* تعديل خاص للهواتف لضمان عدم اختفاء النص */
 @media (max-width: 768px) {
     .full-width-banner {
-        max-height: 200px; 
+        max-height: 150px; /* تقليل الارتفاع ليناسب شاشة الموبايل الصغيرة */
+        object-fit: fill;   /* يمدد الصورة لتملأ العرض بالكامل على الهاتف */
+    }
+    
+    body {
+        flex-direction: column; /* جعل السايدبار ينزل تحت البانر في الموبايل */
     }
 }
