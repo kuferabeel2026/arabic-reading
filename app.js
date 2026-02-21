@@ -621,30 +621,4 @@ ${msg || "-"}`;
 }
 
 
-async function updateCounter() {
-  const display = document.getElementById('visitor-count');
-  const namespace = "kuferabeel2026"; // اسم فريد لمنصتك
-  const key = "reading_site_main";
 
-  try {
-    // إذا كانت هذه أول مرة يفتح فيها المستخدم الصفحة في هذه الجلسة
-    if (!sessionStorage.getItem('counted')) {
-      // زيادة العداد
-      const response = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
-      const data = await response.json();
-      if (display) display.innerText = data.count.toLocaleString();
-      sessionStorage.setItem('counted', 'true');
-    } else {
-      // إذا عمل Refresh، نجلب الرقم الحالي فقط بدون زيادة
-      const response = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`);
-      const data = await response.json();
-      if (display) display.innerText = data.count.toLocaleString();
-    }
-  } catch (error) {
-    console.error("Counter Error:", error);
-    if (display) display.innerText = "جاهز";
-  }
-}
-
-// تشغيل العداد عند تحميل الصفحة
-window.addEventListener('load', updateCounter);

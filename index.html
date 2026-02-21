@@ -35,13 +35,13 @@
       <button onclick="showAchievements()">🏅 إنجازاتي</button>
       <button onclick="toggleDarkMode()">🌙 الوضع الليلي</button>
     </div>
-
     <div class="stats"
       style="margin: 15px 0; text-align: center; background: rgba(255, 255, 255, 0.5); padding: 12px; border-radius: 12px; border: 1px solid #1f4068;">
       <p style="margin: 0 0 5px 0; font-weight: bold; color: #1f4068; font-size: 0.95em;">📊 إجمالي زيارات المنصة</p>
-      <div id="visitor-count" style="font-size: 1.8em; font-weight: bold; color: #d63031;">...</div>
+      <span id="busuanzi_container_site_pv" style="display:none; font-size: 1.8em; font-weight: bold; color: #d63031;">
+        <span id="busuanzi_value_site_pv">...</span>
+      </span>
     </div>
-
 
     <div class="contact-box">
       <h3>📩 التواصل مع المجتمع</h3>
@@ -55,6 +55,10 @@
         <button class="primary" onclick="sendEmailToSchool()" style="width: 100%;">إرسال</button>
       </div>
     </div>
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
 
 
 
