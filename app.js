@@ -568,5 +568,14 @@ ${msg || "-"}`;
     `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
+// دالة الفلترة الجديدة لربط القائمة المنسدلة بنظام الرفوف
+function filterByGrade(grade) {
+  currentGrade = grade || null; // تخزين الصف المختار أو إفراغه للعودة للرفوف
+  renderLibrary(); // إعادة بناء المكتبة بناءً على الاختيار
+  window.scrollTo({ top: 0, behavior: 'smooth' }); // العودة لأعلى الصفحة بسلاسة
+}
 
+// تصدير الدالة لتكون قابلة للاستدعاء من ملف HTML
+window.filterByGrade = filterByGrade;
 
+س

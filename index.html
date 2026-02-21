@@ -35,6 +35,26 @@
       <button onclick="showAchievements()">🏅 إنجازاتي</button>
       <button onclick="toggleDarkMode()">🌙 الوضع الليلي</button>
     </div>
+
+    <div class="filter-area"
+      style="margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.4); border-radius: 10px; border: 1px solid #1f4068;">
+      <label style="display:block; font-size:0.85rem; font-weight:bold; color:#1f4068; margin-bottom:5px;">🔍 عرض حسب
+        الصف:</label>
+      <select onchange="filterByGrade(this.value)"
+        style="width:100%; padding:8px; border-radius:5px; border:1px solid #1f4068; cursor:pointer;">
+        <option value="">📚 كل الرفوف</option>
+        <option value="الصف 9">الصف 9</option>
+        <option value="الصف 10">الصف 10</option>
+        <option value="الصف 11">الصف 11</option>
+        <option value="الصف 12">الصف 12</option>
+        <option value="كتب المعلمين">كتب المعلمين</option>
+        <option value="كتب أولياء الأمور">كتب أولياء الأمور</option>
+      </select>
+    </div>
+
+
+
+    </div>
     <div class="stats"
       style="margin: 15px 0; text-align: center; background: rgba(255, 255, 255, 0.5); padding: 12px; border-radius: 12px; border: 1px solid #1f4068;">
       <p style="margin: 0 0 5px 0; font-weight: bold; color: #1f4068; font-size: 0.95em;">📊 إجمالي زيارات المنصة</p>
