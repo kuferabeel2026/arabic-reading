@@ -7,112 +7,105 @@
   <title>منصة القراءة العربية</title>
   <link rel="stylesheet" href="style.css?v=1.0.2" />
 </head>
+<div class="main-banner-container">
+  <img src="assets/banner.png" alt="بانر المنصة" class="full-width-banner">
+</div>
 
-<body>
-  <div class="main-banner-wrapper">
-    <img src="assets/banner.png" alt="بانر مكتبة مدرسة كفر أبيل" class="full-banner">
-  </div>
-  
-  <aside class="sidebar">
-    <h2>🎓 منصة القراءة العربية</h2>
+<aside class="sidebar">
+  <h2>🎓 منصة القراءة العربية</h2>
 
-    <div class="user-box">
-      <div class="user-row">
-        <span class="muted">👤 المستخدم:</span>
-        <strong id="userDisplay">زائر</strong>
-      </div>
-      <div class="user-actions">
-        <button class="secondary" onclick="openLogin()">تسجيل الدخول</button>
-        <button class="secondary" onclick="logout()">تسجيل الخروج</button>
-      </div>
+  <div class="user-box">
+    <div class="user-row">
+      <span class="muted">👤 المستخدم:</span>
+      <strong id="userDisplay">زائر</strong>
     </div>
-
-    <div class="stats">
-      <p>🏆 النقاط: <span id="pointsDisplay">0</span></p>
-      <h3>🎖 شاراتك</h3>
-      <div id="badgesDisplay" class="badges"></div>
-    </div>
-
-    <div class="nav">
-      <button onclick="loadLibrary()">📚 المكتبة</button>
-      <button onclick="showAchievements()">🏅 إنجازاتي</button>
-      <button onclick="toggleDarkMode()">🌙 الوضع الليلي</button>
-    </div>
-
-    <div class="filter-area"
-      style="margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.4); border-radius: 10px; border: 1px solid #1f4068;">
-      <label style="display:block; font-size:0.85rem; font-weight:bold; color:#1f4068; margin-bottom:5px;">🔍 عرض حسب
-        الصف:</label>
-      <select onchange="filterByGrade(this.value)"
-        style="width:100%; padding:8px; border-radius:5px; border:1px solid #1f4068; cursor:pointer;">
-        <option value="">📚 كل الرفوف</option>
-        <option value="الصف 9">الصف 9</option>
-        <option value="الصف 10">الصف 10</option>
-        <option value="الصف 11">الصف 11</option>
-        <option value="الصف 12">الصف 12</option>
-        <option value="كتب المعلمين">كتب المعلمين</option>
-        <option value="كتب أولياء الأمور">كتب أولياء الأمور</option>
-      </select>
-    </div>
-
-
-
-    </div>
-    <div class="stats"
-      style="margin: 15px 0; text-align: center; background: rgba(255, 255, 255, 0.5); padding: 12px; border-radius: 12px; border: 1px solid #1f4068;">
-      <p style="margin: 0 0 5px 0; font-weight: bold; color: #1f4068; font-size: 0.95em;">📊 إجمالي زيارات المنصة</p>
-      <span id="busuanzi_container_site_pv" style="display:none; font-size: 1.8em; font-weight: bold; color: #d63031;">
-        <span id="busuanzi_value_site_pv">...</span>
-      </span>
-    </div>
-
-    <div class="contact-box">
-      <h3>📩 التواصل مع المجتمع</h3>
-      <a class="contact-email" href="mailto:kuferabeelschool@gmail.com">
-        kuferabeelschool@gmail.com
-      </a>
-      <div class="contact-form">
-        <input id="cName" class="input" type="text" placeholder="الاسم">
-        <input id="cPhone" class="input" type="text" placeholder="رقم الهاتف">
-        <textarea id="cMsg" class="input" rows="3" placeholder="رسالتك..."></textarea>
-        <button class="primary" onclick="sendEmailToSchool()" style="width: 100%;">إرسال</button>
-      </div>
-    </div>
-
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-
-
-  </aside>
-
-  <main class="main">
-    <div class="card" id="content"></div>
-  </main>
-
-  <!-- Login Modal -->
-  <div class="modal" id="loginModal" aria-hidden="true">
-    <div class="modal-content">
-      <h3>تسجيل الدخول</h3>
-      <p class="muted">اكتب اسم مستخدم لاستخدامه محليًا (Local Storage).</p>
-      <input id="usernameInput" class="input" type="text" placeholder="مثال: Mo" maxlength="30" />
-      <div class="modal-actions">
-        <button class="secondary" onclick="closeLogin()">إلغاء</button>
-        <button class="primary" onclick="login()">دخول</button>
-      </div>
+    <div class="user-actions">
+      <button class="secondary" onclick="openLogin()">تسجيل الدخول</button>
+      <button class="secondary" onclick="logout()">تسجيل الخروج</button>
     </div>
   </div>
 
+  <div class="stats">
+    <p>🏆 النقاط: <span id="pointsDisplay">0</span></p>
+    <h3>🎖 شاراتك</h3>
+    <div id="badgesDisplay" class="badges"></div>
+  </div>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div>© جميع الحقوق محفوظة لمنصة القراءة العربية - مدرسة كفرأبيل الثانوية الشاملة للبنين</div>
-    <div style="margin-top: 5px;">
+  <div class="nav">
+    <button onclick="loadLibrary()">📚 المكتبة</button>
+    <button onclick="showAchievements()">🏅 إنجازاتي</button>
+    <button onclick="toggleDarkMode()">🌙 الوضع الليلي</button>
+  </div>
 
-  </footer>
-  <script src="app.js?v=1.0.2"></script>
+  <div class="filter-area"
+    style="margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.4); border-radius: 10px; border: 1px solid #1f4068;">
+    <label style="display:block; font-size:0.85rem; font-weight:bold; color:#1f4068; margin-bottom:5px;">🔍 عرض حسب
+      الصف:</label>
+    <select onchange="filterByGrade(this.value)"
+      style="width:100%; padding:8px; border-radius:5px; border:1px solid #1f4068; cursor:pointer;">
+      <option value="">📚 كل الرفوف</option>
+      <option value="الصف 9">الصف 9</option>
+      <option value="الصف 10">الصف 10</option>
+      <option value="الصف 11">الصف 11</option>
+      <option value="الصف 12">الصف 12</option>
+      <option value="كتب المعلمين">كتب المعلمين</option>
+      <option value="كتب أولياء الأمور">كتب أولياء الأمور</option>
+    </select>
+  </div>
+
+
+
+  </div>
+  <div class="stats"
+    style="margin: 15px 0; text-align: center; background: rgba(255, 255, 255, 0.5); padding: 12px; border-radius: 12px; border: 1px solid #1f4068;">
+    <p style="margin: 0 0 5px 0; font-weight: bold; color: #1f4068; font-size: 0.95em;">📊 إجمالي زيارات المنصة</p>
+    <span id="busuanzi_container_site_pv" style="display:none; font-size: 1.8em; font-weight: bold; color: #d63031;">
+      <span id="busuanzi_value_site_pv">...</span>
+    </span>
+  </div>
+
+  <div class="contact-box">
+    <h3>📩 التواصل مع المجتمع</h3>
+    <a class="contact-email" href="mailto:kuferabeelschool@gmail.com">
+      kuferabeelschool@gmail.com
+    </a>
+    <div class="contact-form">
+      <input id="cName" class="input" type="text" placeholder="الاسم">
+      <input id="cPhone" class="input" type="text" placeholder="رقم الهاتف">
+      <textarea id="cMsg" class="input" rows="3" placeholder="رسالتك..."></textarea>
+      <button class="primary" onclick="sendEmailToSchool()" style="width: 100%;">إرسال</button>
+    </div>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</aside>
+
+<main class="main">
+  <div class="card" id="content"></div>
+</main>
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal" aria-hidden="true">
+  <div class="modal-content">
+    <h3>تسجيل الدخول</h3>
+    <p class="muted">اكتب اسم مستخدم لاستخدامه محليًا (Local Storage).</p>
+    <input id="usernameInput" class="input" type="text" placeholder="مثال: Mo" maxlength="30" />
+    <div class="modal-actions">
+      <button class="secondary" onclick="closeLogin()">إلغاء</button>
+      <button class="primary" onclick="login()">دخول</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div>© جميع الحقوق محفوظة لمنصة القراءة العربية - مدرسة كفرأبيل الثانوية الشاملة للبنين</div>
+  <div style="margin-top: 5px;">
+
+</footer>
+<script src="app.js?v=1.0.2"></script>
 </body>
 
 </html>
