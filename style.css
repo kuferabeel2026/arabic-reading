@@ -515,31 +515,22 @@ a.primary.link-btn{
 .btn-green{ background:#28a745 !important; }
 .btn-gray{ background:#555 !important; }
 
-/* إصلاح خروج الإيميل عن الصندوق */
-.contact-email {
-    word-wrap: break-word;         /* كسر الكلمات الطويلة */
-    overflow-wrap: break-word; 
-    word-break: break-all;         /* كسر النص إذا كان طويلاً جداً */
-    font-size: 0.85rem !important; /* تصغير الخط قليلاً ليناسب المساحة */
-    padding: 8px !important;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;        /* ضمان بقاء الحواف داخل الصندوق */
-}
-
-/* تنسيق الإيميل ومنع خروجه عن السايدبار */
-.contact-email {
-    display: block;
-    width: 100%;
-    word-wrap: break-word;   /* كسر الكلمات الطويلة */
-    word-break: break-all;   /* ضمان الكسر في الشاشات الصغيرة */
-    font-size: 0.8rem !important; 
-    background: #f0f9ff;
-    padding: 8px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    text-align: center;
-    box-sizing: border-box; /* يضمن بقاء الحواف داخل الصندوق */
+/* الحل النهائي والوحيد لتنسيق بريد المنصة */
+.contact-email, .email-link {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-all !important; /* يجبر المتصفح على كسر الإيميل عند الحافة */
+    font-size: 0.75rem !important;    /* حجم خط مناسب جداً للسايدبار */
+    background: #e1f5fe !important;
     color: #1f4068 !important;
-    text-decoration: none;
+    padding: 10px 5px !important;
+    border-radius: 8px !important;
+    margin-bottom: 12px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    line-height: 1.4 !important;      /* يعطي مسافة مريحة إذا انقسم لسطرين */
 }
