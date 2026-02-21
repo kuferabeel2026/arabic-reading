@@ -3,15 +3,10 @@ body {
     direction: rtl;
     margin: 0;
     font-size: large;
-
-    /* احجز مساحة للبانر الثابت حتى لا يختفي شريط الفلاتر تحته */
-    padding-top: 130px;
-
-    /* اترك مساحة للفوتر الثابت أسفل الصفحة */
-
     display: flex;
+    flex-wrap: wrap; /* يسمح للبانر بأخذ سطر كامل والمحتوى تحته */
     background: #f4f6f9;
-    position: relative;
+    padding-top: 0 !important; /* إلغاء الـ 130px القديمة */
 }
 
 /* متغيرات لتسهيل تعديل الارتفاعات لاحقًا */
@@ -223,19 +218,7 @@ button.secondary:hover{ background:#dde6f3; }
 }
 
 
-/* --- Top banner (fixed overlay) --- */
-body::before{
-  content: "";
-  position: fixed;            /* ثابت */
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--banner-h);
-  background: url("assets/banner.png") center / cover no-repeat;
 
-  z-index: 1100;              /* فوق كل شيء */
-  pointer-events: none;       /* لا يمنع الضغط على العناصر تحت */
-}
 
 /* === Force footer to bottom === */
 footer,
@@ -594,4 +577,26 @@ a.primary.link-btn{
     transform: translateY(-10px);
     border-color: #78dae7;
     box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.main-banner-container {
+    width: 100%;       /* ملء العرض بالكامل */
+    background: #00b3cc; /* لون احتياطي متناسق مع صورتك */
+    line-height: 0;
+    margin-bottom: 20px;
+}
+
+.full-width-banner {
+    width: 100%;       /* تمدد الصورة لعرض الشاشة */
+    height: auto;      /* الحفاظ على التناسب */
+    max-height: 350px; /* يمكنك التحكم في الطول من هنا */
+    object-fit: cover; /* لضمان عدم تشوه الشعار */
+    display: block;
+}
+
+/* تعديل للموبايل */
+@media (max-width: 768px) {
+    .full-width-banner {
+        max-height: 200px; 
+    }
 }
