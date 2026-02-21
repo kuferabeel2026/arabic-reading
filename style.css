@@ -526,3 +526,20 @@ a.primary.link-btn{
     width: 100%;
     box-sizing: border-box;        /* ضمان بقاء الحواف داخل الصندوق */
 }
+
+/* تنسيق الإيميل ومنع خروجه عن السايدبار */
+.contact-email {
+    display: block;
+    width: 100%;
+    word-wrap: break-word;   /* كسر الكلمات الطويلة */
+    word-break: break-all;   /* ضمان الكسر في الشاشات الصغيرة */
+    font-size: 0.8rem !important; 
+    background: #f0f9ff;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+    box-sizing: border-box; /* يضمن بقاء الحواف داخل الصندوق */
+    color: #1f4068 !important;
+    text-decoration: none;
+}
