@@ -1,11 +1,16 @@
 body {
     font-family: 'Times New Roman', Times, serif;
     direction: rtl;
-    margin: 0;
-    font-size: large;
+    margin: 0 !important;      /* إلغاء أي هوامش تلقائية للمتصفح */
+    padding: 0 !important;     /* إلغاء أي فراغات داخلية */
     display: flex;
-    flex-wrap: wrap; /* يسمح للبانر بأخذ سطر كامل والمحتوى تحته */
+    flex-wrap: wrap;           /* للسماح للبانر بالبقاء في الأعلى والمحتوى تحته */
     background: #f4f6f9;
+}
+
+/* تأكد من حذف أو تعديل هذه القيمة إذا كانت موجودة في ملفك */
+:root {
+    --banner-h: 0px; /* اجعلها صفر */
 }
 
 /* متغيرات لتسهيل تعديل الارتفاعات لاحقًا */
@@ -578,22 +583,18 @@ a.primary.link-btn{
     box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
-/* تنسيق البانر المطور ليناسب الهاتف والكمبيوتر */
 .main-banner-container {
     width: 100%;
-    background: #00b3cc; /* لون الخلفية الزرقاء في صورتك */
-    line-height: 0;
-    margin: 0;
+    margin-top: 0 !important;   /* يضمن عدم وجود فراغ أبيض فوق الصورة */
     padding: 0;
+    line-height: 0;            /* يمنع الفراغ تحت الصورة أيضاً */
+    background: #00b3cc;       /* نفس لون البانر لدمجه */
 }
 
 .full-width-banner {
     width: 100%;
     height: auto;
-    /* object-fit: contain يضمن ظهور كامل محتوى الصورة (النص والشعار) دون قص */
-    object-fit: contain; 
-    display: block;
-    max-height: 300px; /* طول مناسب للكمبيوتر */
+    display: block;            /* يزيل الفراغات الصغيرة في الأسفل */
 }
 
 /* تعديل خاص للهواتف لضمان عدم اختفاء النص */
