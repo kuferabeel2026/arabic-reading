@@ -269,16 +269,16 @@ function openBook(grade, title) {
   const done = isCompleted(grade, title);
 
   // على الهاتف: افتح الكتاب مباشرة + اعرض زر المكتمل هنا (لأنه ما في واجهة قارئ)
-if (isMobile()) {
-  currentGrade = grade;
-  currentBook = title;
+  if (isMobile()) {
+    currentGrade = grade;
+    currentBook = title;
 
-  const book = booksData[grade][title];
-  const url = book.url || "";
-  const done = isCompleted(grade, title);
+    const book = booksData[grade][title];
+    const url = book.url || "";
+    const done = isCompleted(grade, title);
 
-  const content = document.getElementById("content");
-  content.innerHTML = `
+    const content = document.getElementById("content");
+    content.innerHTML = `
     <div class="btn-row">
       <button class="primary btn-gray" onclick="loadLibrary()">◀ العودة للمكتبة</button>
 
@@ -293,8 +293,8 @@ if (isMobile()) {
       }
     </div>
   `;
-  return;
-}
+    return;
+  }
 
 
   // كمبيوتر: حاول embed
@@ -586,12 +586,7 @@ window.sendEmailToSchool = sendEmailToSchool;
 // -------------------- Load books --------------------
 async function loadBooks() {
   try {
-    // منع كاش عدّاد الزوار (Hits badge)
-const img = document.getElementById("visitorCounter");
-if (img) {
-  const base = img.getAttribute("src").split("&cb=")[0];
-  img.src = `${base}&cb=${Date.now()}`;
-}
+    // تم إزالة كود تحديث العداد القديم من هنا لضمان الاستقرار
 
     const res = await fetch(`books.json?v=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -601,25 +596,21 @@ if (img) {
     loadLibrary();
   } catch (e) {
     console.error(e);
-    $("content").innerHTML = `
-      <h2>خطأ في تحميل الكتب</h2>
-      <p class="muted">تأكد أن ملف <code>books.json</code> موجود وصيغته JSON صحيحة، وأنك تشغل الموقع عبر خادم (مثل: <code>python -m http.server 8080</code>).</p>
-      <pre class="muted" style="white-space:pre-wrap">${esc(String(e))}</pre>
-    `;
+    // ... بقية كود معالجة الخطأ الموجود لديك
   }
 }
 
 document.addEventListener("DOMContentLoaded", loadBooks);
 
-function sendEmailToSchool(){
-  const email = "kuferabeelschool@gmail.com"; 
+function sendEmailToSchool() {
+  const email = "kuferabeelschool@gmail.com";
   const name = (document.getElementById("cName")?.value || "").trim();
   const phone = (document.getElementById("cPhone")?.value || "").trim();
   const subject = (document.getElementById("cSubject")?.value || "التواصل مع المدرسة").trim();
   const msg = (document.getElementById("cMsg")?.value || "").trim();
 
   const body =
-`الاسم: ${name || "-"}
+    `الاسم: ${name || "-"}
 رقم الهاتف: ${phone || "-"}
 ----------------
 الرسالة:
