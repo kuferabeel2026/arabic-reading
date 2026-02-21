@@ -621,32 +621,41 @@ ${msg || "-"}`;
 }
 
 
-// وظيفة تشغيل العداد مرة واحدة فقط لكل جلسة (لمنع زيادة العدد عند عمل Refresh)
-function activeCounterOnce() {
-    // التحقق إذا كان المستخدم قد زار الموقع في هذه الجلسة (قبل الـ Refresh)
-    if (!sessionStorage.getItem('visited_this_session')) {
-        
-        // إنشاء عنصر السكريبت الخاص بالعداد وتشغيله
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
-        
-        script.onload = () => {
-            console.log("تم احتساب زيارة حقيقية جديدة.");
-            // حفظ علامة في ذاكرة الجلسة لمنع الاحتساب مرة أخرى عند الـ Refresh
-            sessionStorage.setItem('visited_this_session', 'true');
-        };
+function handleSmartCounter() {
+    const namespace = "kuferabeel2026-reading"; // معرف فريد لموقعك
+    const display = document.getElementById('smart-visitor-count');
+    
+    // رابط العرض فقط
+    const getUrl = `https://countapi.it/get/${namespace}`;
+    // رابط الزيادة
+    const hitUrl = `https://countapi.it/hit/${namespace}`;
 
-        document.body.appendChild(script);
+    // إذا كانت هذه جلسة جديدة (ليست Refresh)
+    if (!sessionStorage.getItem('already_counted')) {
+        fetch(hitUrl)
+            .then(res => res.json())
+            .then(data => {
+                if(display) display.innerText = data.value.toLocaleString();
+                sessionStorage.setItem('already_counted', 'true');
+            })
+            .catch(() => fallbackGet(getUrl));
     } else {
-        // إذا كان Refresh، نظهر الرقم فقط بدون احتساب زيادة
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
-        document.body.appendChild(script);
-        console.log("تم استعادة الرقم بدون احتساب زيادة (Refresh).");
+        // إذا كان Refresh، نكتفي بجلب الرقم الحالي بدون زيادته
+        fallbackGet(getUrl);
     }
 }
 
-// تشغيل الوظيفة عند تحميل الصفحة
-window.addEventListener('load', activeCounterOnce);
+function fallbackGet(url) {
+    const display = document.getElementById('smart-visitor-count');
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            if(display) display.innerText = data.value.toLocaleString();
+        })
+        .catch(() => {
+            if(display) display.innerText = "متصل";
+        });
+}
+
+// تشغيل العداد عند تحميل الصفحة
+window.addEventListener('load', handleSmartCounter);
