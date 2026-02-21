@@ -621,41 +621,30 @@ ${msg || "-"}`;
 }
 
 
-function handleSmartCounter() {
-    const namespace = "kuferabeel2026-reading"; // معرف فريد لموقعك
-    const display = document.getElementById('smart-visitor-count');
-    
-    // رابط العرض فقط
-    const getUrl = `https://countapi.it/get/${namespace}`;
-    // رابط الزيادة
-    const hitUrl = `https://countapi.it/hit/${namespace}`;
+async function updateCounter() {
+  const display = document.getElementById('visitor-count');
+  const namespace = "kuferabeel2026"; // اسم فريد لمنصتك
+  const key = "reading_site_main";
 
-    // إذا كانت هذه جلسة جديدة (ليست Refresh)
-    if (!sessionStorage.getItem('already_counted')) {
-        fetch(hitUrl)
-            .then(res => res.json())
-            .then(data => {
-                if(display) display.innerText = data.value.toLocaleString();
-                sessionStorage.setItem('already_counted', 'true');
-            })
-            .catch(() => fallbackGet(getUrl));
+  try {
+    // إذا كانت هذه أول مرة يفتح فيها المستخدم الصفحة في هذه الجلسة
+    if (!sessionStorage.getItem('counted')) {
+      // زيادة العداد
+      const response = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
+      const data = await response.json();
+      if (display) display.innerText = data.count.toLocaleString();
+      sessionStorage.setItem('counted', 'true');
     } else {
-        // إذا كان Refresh، نكتفي بجلب الرقم الحالي بدون زيادته
-        fallbackGet(getUrl);
+      // إذا عمل Refresh، نجلب الرقم الحالي فقط بدون زيادة
+      const response = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`);
+      const data = await response.json();
+      if (display) display.innerText = data.count.toLocaleString();
     }
-}
-
-function fallbackGet(url) {
-    const display = document.getElementById('smart-visitor-count');
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            if(display) display.innerText = data.value.toLocaleString();
-        })
-        .catch(() => {
-            if(display) display.innerText = "متصل";
-        });
+  } catch (error) {
+    console.error("Counter Error:", error);
+    if (display) display.innerText = "جاهز";
+  }
 }
 
 // تشغيل العداد عند تحميل الصفحة
-window.addEventListener('load', handleSmartCounter);
+window.addEventListener('load', updateCounter);
