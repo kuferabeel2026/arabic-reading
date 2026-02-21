@@ -484,44 +484,45 @@ function checkAnswer(selected, correct) {
 
 // -------------------- Achievements page --------------------
 function showAchievements() {
+  const content = document.getElementById("content");
+  if (!content) return;
+
   const points = getPoints();
   const badges = getBadges();
-
-  const completed = [];
-  for (const g of Object.keys(booksData || {})) {
-    for (const t of Object.keys(booksData[g] || {})) {
-      if (isCompleted(g, t)) completed.push({ grade: g, title: t, topic: (booksData[g][t].topic || "عام") });
+  
+  // جلب الكتب المكتملة من LocalStorage
+  const completedBooks = [];
+  for (let grade in booksData) {
+    for (let title in booksData[grade]) {
+      if (localStorage.getItem(bkey(grade, title) + "__completed") === "true") {
+        completedBooks.push(title);
+      }
     }
   }
 
-  let html = `
-    <h2>🏅 إنجازاتي</h2>
-    <p>🏆 النقاط: <strong>${points}</strong></p>
-    <p>🎖 الشارات: ${badges.length ? badges.map((b) => `<span class="badge-emoji">${esc(b)}</span>`).join("") : '<span class="muted">لا توجد شارات بعد</span>'}</p>
-    <h3 style="margin-top:18px">✅ الكتب المكتملة (${completed.length})</h3>
+  content.innerHTML = `
+    <div class="achievements-page" style="text-align:center; padding:20px;">
+      <h2 style="color:#1f4068;">🏅 لوحة إنجازات القارئ</h2>
+      <div class="score-card" style="background:#78dae7; padding:20px; border-radius:15px; margin-bottom:20px;">
+        <p style="font-size:1.2rem;">أهلاً بك يا <strong>${currentUser}</strong></p>
+        <h3 style="font-size:2rem; margin:10px 0;">رصيدك: ${points} نقطة</h3>
+      </div>
+      
+      <div class="badges-section">
+        <h4>🎖 الشارات المستحقة</h4>
+        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+          ${badges.length > 0 ? badges.map(b => `<span class="badge-item" style="background:#ffd700; padding:10px; border-radius:10px;">${b}</span>`).join('') : "<p>اقرأ مزيداً من الكتب للحصول على شارات!</p>"}
+        </div>
+      </div>
+
+      <div class="completed-list" style="margin-top:20px; text-align:right;">
+        <h4>📚 الكتب التي أتممتها:</h4>
+        ${completedBooks.length > 0 ? `<ul>${completedBooks.map(t => `<li>✅ ${t}</li>`).join('')}</ul>` : "<p>لم تنهِ أي كتاب بعد. ابدأ القراءة الآن!</p>"}
+      </div>
+      
+      <button class="primary" onclick="loadLibrary()" style="margin-top:20px;">العودة للمكتبة</button>
+    </div>
   `;
-
-  if (!completed.length) {
-    html += `<p class="muted">لا توجد كتب مكتملة بعد.</p>`;
-  } else {
-    const by = {};
-    completed.forEach((x) => (by[x.grade] = by[x.grade] || []).push(x));
-    for (const g of Object.keys(by).sort((a, b) => {
-      const n = (k) => {
-        const m = String(k).match(/\d+/);   // يدعم "الصف 9" أو "9"
-        return m ? parseInt(m[0], 10) : 9999;
-      };
-      return n(a) - n(b);
-    })) {
-      html += `<h4 class="grade-title">${esc(g)}</h4>`;
-      by[g].forEach((x) => {
-        html += `<div class="book completed-book">✅ ${esc(x.title)} <span class="muted">(${esc(x.topic)})</span></div>`;
-      });
-    }
-  }
-
-  html += `<div style="margin-top:14px"><button class="secondary" onclick="loadLibrary()">⬅️ رجوع للمكتبة</button></div>`;
-  $("content").innerHTML = html;
 }
 
 // -------------------- Login modal --------------------
