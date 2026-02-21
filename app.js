@@ -620,5 +620,34 @@ ${msg || "-"}`;
     `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
+// إعداد قاعدة بيانات عداد الزوار
+const firebaseConfig = {
+    databaseURL: "https://kufer-abeel-default-rtdb.firebaseio.com/" 
+};
 
+// تهيئة Firebase
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+const database = firebase.database();
+const visitRef = database.ref('total_visits');
+
+function startRealCounter() {
+    // 1. زيادة العداد مرة واحدة عند دخول الزائر
+    visitRef.transaction((currentValue) => {
+        return (currentValue || 0) + 1;
+    });
+
+    // 2. تحديث الرقم على الشاشة لحظياً للجميع
+    visitRef.on('value', (snapshot) => {
+        const count = snapshot.val();
+        const display = document.getElementById('real-visitor-count');
+        if (display) {
+            display.innerText = count ? count.toLocaleString() : "1";
+        }
+    });
+}
+
+// تشغيل العداد بعد تحميل الصفحة
+window.addEventListener('load', startRealCounter);
 

@@ -35,16 +35,15 @@
       <button onclick="showAchievements()">🏅 إنجازاتي</button>
       <button onclick="toggleDarkMode()">🌙 الوضع الليلي</button>
     </div>
-
+    
     <div class="stats"
       style="margin: 15px 0; text-align: center; background: rgba(255, 255, 255, 0.5); padding: 12px; border-radius: 12px; border: 1px solid #1f4068;">
-      <p style="margin: 0 0 8px 0; font-weight: bold; color: #1f4068; font-size: 0.95em;">📊 زوار المنصة</p>
-      <iframe src="https://www.cutercounter.com/hits.php?id=gvxpndk&nd=5&style=1" border="0" frameborder="0"
-        scrolling="no" style="width:100px; height:30px; margin:0 auto; display:block;">
-      </iframe>
+      <p style="margin: 0 0 5px 0; font-weight: bold; color: #1f4068; font-size: 0.95em;">📊 إجمالي زيارات المنصة</p>
+      <div id="real-visitor-count" style="font-size: 1.8em; font-weight: bold; color: #d63031;">...</div>
     </div>
 
-
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <div class="contact-box" style="width: 100%; box-sizing: border-box;">
       <h3>📩 التواصل مع المجتمع</h3>
