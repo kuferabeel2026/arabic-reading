@@ -534,3 +534,64 @@ a.primary.link-btn{
     box-sizing: border-box !important;
     line-height: 1.4 !important;      /* يعطي مسافة مريحة إذا انقسم لسطرين */
 }
+
+/* --- نظام الرفوف الذكي --- */
+.shelf-container {
+    margin-bottom: 40px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
+}
+
+.shelf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #78dae7;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+}
+
+.shelf-title {
+    margin: 0;
+    color: #1f4068;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.shelf-count {
+    background: #1f4068;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+/* توزيع الكتب بشكل شبكي (Grid) */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px;
+}
+
+/* بطاقة الكتاب التفاعلية */
+.book-card {
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.book-card:hover {
+    transform: translateY(-10px);
+    border-color: #78dae7;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}

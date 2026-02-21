@@ -119,131 +119,78 @@ function topicsAll() {
   return Array.from(s).sort();
 }
 
+// 1. الدالة المسؤولة عن بناء المكتبة بنظام الرفوف
 function renderLibrary() {
-  const grades = allGrades();
-  if (!grades.length) {
-    $("content").innerHTML = "<p>لا توجد كتب. تأكد من ملف books.json</p>";
-    return;
+  const content = document.getElementById("content");
+  if (!content) return;
+  content.innerHTML = ""; // تنظيف الصفحة
+
+  if (!currentGrade) {
+    // عرض نظام الرفوف (عندما لا يكون هناك فلتر)
+    for (let grade in booksData) {
+      const booksInGrade = Object.keys(booksData[grade]);
+      if (booksInGrade.length === 0) continue;
+
+      const shelf = document.createElement("div");
+      shelf.className = "shelf-container";
+
+      // هنا يتم تجميع بطاقات الكتب داخل الرف
+      let booksCardsHtml = "";
+      booksInGrade.forEach(title => {
+        booksCardsHtml += createBookCard(grade, title);
+      });
+
+      shelf.innerHTML = `
+        <div class="shelf-header">
+          <h2 class="shelf-title">📚 ${grade}</h2>
+          <span class="shelf-count">${booksInGrade.length} كتب</span>
+        </div>
+        <div class="books-grid">
+          ${booksCardsHtml}
+        </div>
+      `;
+      content.appendChild(shelf);
+    }
+  } else {
+    // عرض صف معين عند استخدام الفلترة
+    const books = booksData[currentGrade] || {};
+    const titles = Object.keys(books);
+    let booksCardsHtml = "";
+    titles.forEach(t => {
+      booksCardsHtml += createBookCard(currentGrade, t);
+    });
+
+    content.innerHTML = `
+      <div class="shelf-header">
+        <h2 class="shelf-title">نتائج البحث: ${currentGrade}</h2>
+      </div>
+      <div class="books-grid">
+        ${booksCardsHtml}
+      </div>
+    `;
   }
+}
 
-  // Build filter UI
-  const gradeOptions = [`<option value="all">كل الصفوف</option>`]
-    .concat(grades.map((g) => `<option value="${esc(g)}"${filters.grade === g ? " selected" : ""}>${esc(g)}</option>`))
-    .join("");
+// 2. الدالة المسؤولة عن بناء "كارت" الكتاب الواحد
+function createBookCard(grade, title) {
+  const book = booksData[grade][title];
+  const isCompleted = localStorage.getItem(bkey(grade, title) + "__completed") === "true";
+  const progress = getProgressOrNull(grade, title);
 
-  const topicList = (filters.grade === "all") ? topicsAll() : topicsForGrade(filters.grade);
-  const topicOptions = [`<option value="all">عام / الكل</option>`]
-    .concat(topicList.map((t) => `<option value="${esc(t)}"${filters.topic === t ? " selected" : ""}>${esc(t)}</option>`))
-    .join("");
-
-  let html = `
-    <div class="library-head">
-      <h2>📚 المكتبة</h2>
-      <div class="filters">
-        <button class="secondary" id="resetBtn">إعادة ضبط</button>
-        <select class="input" id="filterTopic">${topicOptions}</select>
-        <select class="input" id="filterGrade">${gradeOptions}</select>
-        <input class="input" id="searchInput" type="text" placeholder="ابحث عن كتاب..." value="${esc(filters.q)}">
+  return `
+    <div class="book-card" style="background:#fff; border:1px solid #ddd; padding:15px; border-radius:10px; display:flex; flex-direction:column; justify-content:space-between; min-height:150px;">
+      <div>
+        <h4 style="margin:0; color:#1f4068; font-size:1.1rem;">${title}</h4>
+        <p style="font-size:0.85rem; color:#666; margin:5px 0;">🏷️ ${book.topic || "عام"}</p>
+        ${isCompleted ? '<span style="color:green; font-size:0.8rem;">✅ مكتمل</span>' : ''}
+      </div>
+      <div style="margin-top:10px;">
+        <button class="primary" onclick="openBook('${grade}', '${title}')" style="width:100%; padding:8px; cursor:pointer;">
+          ${progress !== null ? "استكمال" : "قراءة"}
+        </button>
       </div>
     </div>
   `;
-
-  const wantedGrades = (filters.grade === "all") ? grades : [filters.grade];
-  let any = false;
-
-  for (const grade of wantedGrades) {
-    const g = booksData[grade] || {};
-    const titles = Object.keys(g).filter((title) => {
-      const b = g[title] || {};
-      const topic = String(b.topic || "عام").trim();
-      const qok = !filters.q || title.toLowerCase().includes(filters.q.toLowerCase());
-      const tok = (filters.topic === "all") || (topic === filters.topic);
-      return qok && tok;
-    });
-
-    if (!titles.length) continue;
-    any = true;
-
-    html += `<h3 class="grade-title">${esc(grade)}</h3>`;
-
-    for (const title of titles) {
-      const b = g[title] || {};
-      const done = isCompleted(grade, title);
-
-      // Progress bar behavior:
-      // - External links: 0% unless completed
-      // - Text content: 0% if no saved progress yet
-      let percent = 0;
-      const isExternal = !!(b.url || b.file);
-
-      if (isExternal) {
-        percent = done ? 100 : 0;
-      } else {
-        const pages = safeSplitText(b.content);
-        const saved = getProgressOrNull(grade, title);
-        if (saved === null) {
-          percent = done ? 100 : 0;
-        } else {
-          const page = Math.max(0, Math.min(saved, pages.length - 1));
-          percent = Math.round(((page + 1) / Math.max(1, pages.length)) * 100);
-        }
-      }
-
-      const ready = b.ready !== false;
-
-      html += `
-        <div class="book ${ready ? "" : "not-ready"}" data-grade="${esc(grade)}" data-title="${esc(title)}">
-          <div class="book-row">
-            <div class="book-title">📖 ${esc(title)} ${done ? '<span class="badge-pill">✅ مكتمل</span>' : ''}</div>
-            <div class="book-meta-inline">${esc(b.topic || "عام")}${!ready ? ' <span class="badge-pill warn">⏳ قيد الإعداد</span>' : ''}</div>
-          </div>
-          <div class="progress-bar"><div class="progress" style="width:${percent}%"></div></div>
-        </div>
-      `;
-    }
-  }
-
-  if (!any) {
-    html += `<p class="muted" style="margin-top:12px;">لا توجد نتائج مطابقة.</p>`;
-  }
-
-  $("content").innerHTML = html;
-
-  // Events
-  $("filterGrade").addEventListener("change", (e) => {
-    filters.grade = e.target.value;
-    filters.topic = "all";
-    renderLibrary();
-  });
-  $("filterTopic").addEventListener("change", (e) => {
-    filters.topic = e.target.value;
-    renderLibrary();
-  });
-  $("searchInput").addEventListener("input", (e) => {
-    filters.q = e.target.value.trim();
-    renderLibrary();
-  });
-  $("resetBtn").addEventListener("click", () => {
-    filters.grade = "all";
-    filters.topic = "all";
-    filters.q = "";
-    renderLibrary();
-  });
-
-  // Click delegation (prevents cursor "blocked" issues)
-  $("content").querySelectorAll(".book").forEach((el) => {
-    el.addEventListener("click", () => {
-      const grade = el.getAttribute("data-grade");
-      const title = el.getAttribute("data-title");
-      const b = (booksData[grade] && booksData[grade][title]) ? booksData[grade][title] : null;
-      if (!b) return;
-      if (b.ready === false) {
-        alert("⏳ هذا الكتاب قيد الإعداد حالياً.");
-        return;
-      }
-      openBook(grade, title);
-    });
-  });
 }
 
 function loadLibrary() { renderLibrary(); }
@@ -489,7 +436,7 @@ function showAchievements() {
 
   const points = getPoints();
   const badges = getBadges();
-  
+
   // جلب الكتب المكتملة من LocalStorage
   const completedBooks = [];
   for (let grade in booksData) {
