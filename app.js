@@ -621,4 +621,32 @@ ${msg || "-"}`;
 }
 
 
+// وظيفة تشغيل العداد مرة واحدة فقط لكل جلسة (لمنع زيادة العدد عند عمل Refresh)
+function activeCounterOnce() {
+    // التحقق إذا كان المستخدم قد زار الموقع في هذه الجلسة (قبل الـ Refresh)
+    if (!sessionStorage.getItem('visited_this_session')) {
+        
+        // إنشاء عنصر السكريبت الخاص بالعداد وتشغيله
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
+        
+        script.onload = () => {
+            console.log("تم احتساب زيارة حقيقية جديدة.");
+            // حفظ علامة في ذاكرة الجلسة لمنع الاحتساب مرة أخرى عند الـ Refresh
+            sessionStorage.setItem('visited_this_session', 'true');
+        };
 
+        document.body.appendChild(script);
+    } else {
+        // إذا كان Refresh، نظهر الرقم فقط بدون احتساب زيادة
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
+        document.body.appendChild(script);
+        console.log("تم استعادة الرقم بدون احتساب زيادة (Refresh).");
+    }
+}
+
+// تشغيل الوظيفة عند تحميل الصفحة
+window.addEventListener('load', activeCounterOnce);

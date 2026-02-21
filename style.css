@@ -523,7 +523,7 @@ a.primary.link-btn{
     word-wrap: break-word !important;
     overflow-wrap: break-word !important;
     word-break: break-all !important; /* يجبر المتصفح على كسر الإيميل عند الحافة */
-    font-size: 0.75rem !important;    /* حجم خط مناسب جداً للسايدبار */
+    font-size: 0.90rem !important;    /* حجم خط مناسب جداً للسايدبار */
     background: #e1f5fe !important;
     color: #1f4068 !important;
     padding: 10px 5px !important;
