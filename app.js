@@ -193,7 +193,10 @@ function createBookCard(grade, title) {
   `;
 }
 
-function loadLibrary() { renderLibrary(); }
+function loadLibrary() { 
+  currentGrade = null; // إضافة هذا السطر لتصفير الفلتر عند العودة
+  renderLibrary(); 
+}
 
 // -------------------- Reader --------------------
 function isMobile() {
